@@ -1,0 +1,126 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="#50504c">
+
+    <TextView
+        android:id="@+id/menuTitle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="15"
+        android:gravity="center"
+        android:text="Odaberite priču"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#fffe9d" />
+
+    <hr.startup.untoldstories_android.BounceScrollView
+        android:id="@+id/horizontalScrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="70"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/thumb1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+
+                    />
+
+                <TextView
+                    android:id="@+id/title1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dabar i lisica"
+                    android:textColor="#e4e2e2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/thumb2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    />
+
+                <TextView
+                    android:id="@+id/title2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Druga"
+                    android:textColor="#e4e2e2"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/thumb3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    />
+
+                <TextView
+                    android:id="@+id/title3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Treca"
+                    android:textColor="#e4e2e2" />
+                
+            </LinearLayout>
+        </LinearLayout>
+    </hr.startup.untoldstories_android.BounceScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="15"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/about"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:clickable="true"
+            android:src="@drawable/ic_launcher" />
+
+<!--         <ImageView -->
+<!--             android:id="@+id/settings" -->
+<!--             android:layout_height="match_parent" -->
+<!--             android:layout_weight="1" -->
+<!--             android:layout_width="0dp" -->
+<!--             android:clickable="@bool/abc_action_bar_embed_tabs" -->
+<!--             android:src="@drawable/menu_settings" /> -->
+
+<!--         <ImageView -->
+<!--             android:id="@+id/rating" -->
+<!--             android:layout_height="match_parent" -->
+<!--             android:layout_weight="1" -->
+<!--             android:layout_width="0dp" -->
+<!--             android:clickable="@bool/abc_action_bar_embed_tabs" -->
+<!--             android:src="@drawable/menu_star" /> -->
+    </LinearLayout>
+
+</LinearLayout>
