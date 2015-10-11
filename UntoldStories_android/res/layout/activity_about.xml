@@ -15,7 +15,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/icons_logo" />
 
     <TextView
         android:id="@+id/textView0"
@@ -24,7 +24,7 @@
         android:layout_gravity="center"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
-        android:text="Neispričane priče"
+        android:text="@string/app_name"
         android:textSize="20sp"
         android:textColor="#fffe9d" />
 
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Silvia Nađ"
+        android:text="@string/silvia"
         android:textSize="14sp"
         android:textColor="#e4e2e2" />
 
@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Boris Štih"
+        android:text="@string/boris"
         android:textSize="14sp"
         android:textColor="#e4e2e2" />
 
@@ -51,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Petra kožar"
+        android:text="@string/petra"
         android:textSize="14sp"
         android:textColor="#e4e2e2" />
 

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- general -->
+    <string name="app_name">Neispričane priče</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="title_activity_story">StoryActivity</string>
+    <string name="title_activity_about">AboutActivity</string>
+    <string name="title_activity_options">OptionsActivity</string>
+
+    <!-- credits -->
+    <string name="silvia">Silvia Nađ</string>
+    <string name="boris">Boris Štih</string>
+    <string name="petra">Petra Kožar</string>
+
+    <!-- optionsActivity -->
+    <string name="tellStory">Pričaj mi</string>
+    <string name="tellRecording">Pričaj sa snimljenim zvukom</string>
+    <string name="recordStory">Snimi priču</string>
+
+    <!-- common -->
+    <string name="relativePath">/PMZLN/</string>
+    <string name="prefix">story_</string>
+    <string name="textSufix">_t</string>
+    <string name="audioSufix">_a</string>
+    <string name="imageSufix">_i</string>
+    <string name="customAudioSufix">_ca</string>
+    <string name="titleFirstStory">Dabar i lisica krijesnica traže blago</string>
+
+    <!-- audioRecordAcitvity -->
+    <string name="recBtn">Snimi glas</string>
+    <string name="playBtn">Poslušaj glas</string>
+    <string name="nextBtn">Sljedeća stranica</string>
+    <string name="stopBtn">Zaustavi snimku</string>
+    <string name="stopRecBtn">Zaustavi snimanje</string>
+
+    <!-- menu -->
+    <string name="menuChooseStory">Odaberi priču</string>
+    <string name="firstStory">Dabar i lisica</string>
+    <string name="secondStory">Druga</string>
+    <string name="thirdStory">Treća</string>
+
+    <!-- backToMenu -->
+    <string name="btmTitle">Izlaz</string>
+    <string name="btmMsg">Jeste li sigurni da želite prekinuti priču?</string>
+    <string name="btmYes">Da</string>
+    <string name="title_activity_splash2">Splash2Activity</string>
+    <string name="hello_world">Hello world!</string>
+
+</resources>

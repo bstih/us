@@ -19,7 +19,7 @@ public class SplashActivity extends Activity {
 		    @Override
 		    public void run() {
 		        // Do something after 5s = 5000ms
-                Intent mainIntent = new Intent(SplashActivity.this,MenuActivity.class);
+                Intent mainIntent = new Intent(SplashActivity.this,Splash2Activity.class);
                 SplashActivity.this.startActivity(mainIntent);
                 SplashActivity.this.finish(); 
 		    }

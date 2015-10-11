@@ -11,7 +11,7 @@
         android:layout_height="0dp"
         android:layout_weight="15"
         android:gravity="center"
-        android:text="Odaberite priču"
+        android:text="@string/menuChooseStory"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#fffe9d" />
 
@@ -44,7 +44,7 @@
                     android:id="@+id/title1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dabar i lisica"
+                    android:text="@string/firstStory"
                     android:textColor="#e4e2e2" />
             </LinearLayout>
 
@@ -64,7 +64,7 @@
                     android:id="@+id/title2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Druga"
+                    android:text="@string/secondStory"
                     android:textColor="#e4e2e2"/>
             </LinearLayout>
 
@@ -84,7 +84,7 @@
                     android:id="@+id/title3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Treca"
+                    android:text="@string/thirdStory"
                     android:textColor="#e4e2e2" />
                 
             </LinearLayout>
@@ -104,7 +104,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:clickable="true"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/icons_logo" />
 
 <!--         <ImageView -->
 <!--             android:id="@+id/settings" -->

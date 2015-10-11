@@ -4,20 +4,23 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <uses-sdk
         android:minSdkVersion="9"
-        android:targetSdkVersion="22" />
+        android:targetSdkVersion="12" />
 
     <application
+        android:name=".Application"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/icons_logo"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name="Application" >
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="sensorLandscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,17 +30,37 @@
         <activity
             android:name=".MenuActivity"
             android:label="@string/title_activity_menu"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
             android:name=".StoryActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_story"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"
-            android:screenOrientation="landscape"  >
+            android:screenOrientation="sensorLandscape" >
+        </activity>
+        <activity
+            android:name=".AudioRecorderActivity"
+            android:label="@string/title_activity_menu"
+            android:screenOrientation="sensorLandscape" >
+        </activity>
+        <activity
+            android:name=".TmpAudioRecorderActivity"
+            android:label="@string/title_activity_menu"
+            android:screenOrientation="sensorLandscape" >
+        </activity>
+        <activity
+            android:name=".OptionsActivity"
+            android:label="@string/title_activity_options"
+            android:screenOrientation="sensorLandscape" >
+        </activity>
+        <activity
+            android:name=".Splash2Activity"
+            android:label="@string/title_activity_splash2" >
         </activity>
     </application>
 

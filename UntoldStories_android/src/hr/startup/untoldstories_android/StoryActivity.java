@@ -1,29 +1,35 @@
 package hr.startup.untoldstories_android;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class StoryActivity extends Activity {
 
-	String prefix = "story_1_";
-	String audioSufix = "_a";
-	String imageSufix = "_i";
-	String textSufix = "_t";
+	String prefix;
+	String audioSufix;
+	String imageSufix;
+	String textSufix;
 	String imageName;
 	String audioName;
 	String textName;
@@ -35,22 +41,36 @@ public class StoryActivity extends Activity {
 	ImageView iconClose;
 	ImageView iconSound;
 	ImageView iconBack;
+	ImageView iconFwd;
+	ImageView textBackground;
 	MediaPlayer mPlayer;
-	float textX = 0;
-	float textY = 0;
-	float textW = 0;
-	float textH = 0;
 	DisplayMetrics displayMetrics;
 	int height;// displayMetrics.density;
 	int width;
 	TextView test;
 	int audioPosition = 0;
-	boolean mute = false;
+	int soundMode = 0;
+	boolean customAudio= false;
+	boolean textFound=false;	
+	private String relativePath;
+	private String absolutePath;
+	private String customAudioSufix = "_ca.3gp";
+	int storyNum = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_story);
+		prefix = getString(R.string.prefix);
+		audioSufix = getString(R.string.audioSufix);
+		imageSufix = getString(R.string.imageSufix);
+		textSufix = getString(R.string.textSufix);
+		relativePath =  getString(R.string.relativePath);
+		
+		// get info from main activity (which story is selected)
+		Bundle b = getIntent().getExtras();
+		//storyNum = b.getInt("storyNum");
+		customAudio = b.getBoolean("customAudio");
 		
 		// Initialization of variables
 		displayMetrics = this.getResources().getDisplayMetrics();
@@ -61,23 +81,36 @@ public class StoryActivity extends Activity {
 		iconClose = (ImageView) findViewById(R.id.closeIcon);
 		iconSound = (ImageView) findViewById(R.id.soundIcon);
 		iconBack = (ImageView) findViewById(R.id.backIcon);
+		iconFwd = (ImageView) findViewById(R.id.fwdIcon);
+		textBackground = (ImageView) findViewById(R.id.textBackground);
 		test = (TextView) findViewById(R.id.test);
 		slideNum = 1;
-
+		absolutePath = Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + relativePath;
+		
 		//set icon positions
-		iconClose.requestLayout();
 		RelativeLayout.LayoutParams paramsClose = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT); //The WRAP_CONTENT parameters can be replaced by an absolute width and height or the FILL_PARENT option)
 		RelativeLayout.LayoutParams paramsBack = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
 		RelativeLayout.LayoutParams paramsSound = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
-		paramsClose.leftMargin = (int) (height/20); //Your X coordinate
-		paramsClose.topMargin = (int) (height*(17/20.0f)); //Your Y coordinate
+		RelativeLayout.LayoutParams paramsFwd = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
+		RelativeLayout.LayoutParams paramsText = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
+		paramsClose.leftMargin = (int) (height/20); // X coordinate
+		paramsClose.topMargin = (int) (height*(17/20.0f)); // Y coordinate
 		iconClose.setLayoutParams(paramsClose);
-		paramsSound.leftMargin = (int) (height/5); //Your X coordinate
-		paramsSound.topMargin = (int) (height*(17/20.0f)); //Your Y coordinate
+		paramsSound.leftMargin = (int) (height/5); // X coordinate
+		paramsSound.topMargin = (int) (height*(17/20.0f)); // Y coordinate
 		iconSound.setLayoutParams(paramsSound);
-		paramsBack.leftMargin = (int) (height/20); //Your X coordinate
-		paramsBack.topMargin = (int) (height/20); //Your Y coordinate
+		paramsBack.leftMargin = (int) (height/20); // X coordinate
+		paramsBack.topMargin = (int) (height/20); // Y coordinate
 		iconBack.setLayoutParams(paramsBack);
+		paramsFwd.leftMargin = (int) (width-3*height/20.0f); // X coordinate
+		paramsFwd.topMargin = (int) (height/20); // Y coordinate
+		iconFwd.setLayoutParams(paramsFwd);
+		paramsText.leftMargin = (int) (0.2f*width); // X coordinate - width of rectangle is 60% of screen width
+		paramsText.topMargin = (int) (0.8f*height); // Y coordinate - height of rectangle is 20% of screen height
+		textBackground.setLayoutParams(paramsText); 
+		
+		
 		// for api11+
 //		iconClose.setX(height/20);
 //		iconClose.setY(height*(9/10.0f));
@@ -95,8 +128,16 @@ public class StoryActivity extends Activity {
 		iconSound.getLayoutParams().height=(int)height/10;
 		iconBack.getLayoutParams().width=(int)height/10;
 		iconBack.getLayoutParams().height=(int)height/10;
+		iconFwd.getLayoutParams().width=(int)height/10;
+		iconFwd.getLayoutParams().height=(int)height/10;
+		textBackground.setImageBitmap(decodeSampledBitmapFromResource(getResources(),
+				getResources().getIdentifier("text_background","drawable", this.getPackageName()), (int) (width*0.6f), (int)(height*0.2f)));
+//		textBackground.setScaleType(ScaleType.FIT_XY);
+//		textBackground.getLayoutParams().width=(int) (width*0.6f);
+//		textBackground.getLayoutParams().height=(int)(height*0.2f);
 		
 		iconBack.setVisibility(View.INVISIBLE);
+		textBackground.setVisibility(View.INVISIBLE);
 		
 		// onClick listeners for close and back buttons
 		iconClose.setOnClickListener(new ImageView.OnClickListener() {
@@ -162,30 +203,54 @@ public class StoryActivity extends Activity {
 	}
 
 	void toggleSound() {
-		if (mute){
-			mute = false;
+		if (soundMode==1){
+			soundMode=2;
 			iconSound.setImageResource(R.drawable.icons_sound_on);
 			mPlayer.setVolume(1,1);
+			textBackground.setVisibility(View.INVISIBLE);
+			storyText.setVisibility(View.INVISIBLE);
+
+		}else if (soundMode==2) {
+			soundMode=0;
+			iconSound.setImageResource(R.drawable.icons_both_on);	
+			if (textFound) {
+			textBackground.setVisibility(View.VISIBLE);
+			storyText.setVisibility(View.VISIBLE);
+			}
+			
 		}else {
-			mute = true;
-			iconSound.setImageResource(R.drawable.icons_sound_off);		
-			mPlayer.setVolume(0,0);
+			soundMode=1;
+			iconSound.setImageResource(R.drawable.icons_text_on);		
+			mPlayer.setVolume(0,0);			
 		}
 	}
 	void changeSlide() {
-		
+		boolean customAudioFound = false; 
+		boolean nextImageFound = false;
 		Resources resources = getResources();
 		test.setText(String.valueOf(slideNum));
-		imageName = prefix + String.valueOf(slideNum) + imageSufix;
-		audioName = prefix + String.valueOf(slideNum) + audioSufix;
-		textName = prefix + String.valueOf(slideNum) + textSufix;
+		imageName = prefix + String.valueOf(storyNum) + "_" + String.valueOf(slideNum) + imageSufix;
+		int imageFile = getResources().getIdentifier(imageName, "drawable", this.getPackageName());
+		if (imageFile != 0)  nextImageFound = true;
+		if (customAudio) {
+			audioName = absolutePath + prefix +  String.valueOf(storyNum) + "_"  +String.valueOf(slideNum) + customAudioSufix;
+			File file = new File(audioName);
+			customAudioFound = true;
+			if(!file.exists())      {
+				audioName = prefix + String.valueOf(storyNum) + "_" + String.valueOf(slideNum) + audioSufix;
+				customAudioFound = false;}
+		}
+		else audioName = prefix + String.valueOf(storyNum) + "_" + String.valueOf(slideNum) + audioSufix;
+		textName = prefix + String.valueOf(storyNum) + "_" + String.valueOf(slideNum) + textSufix;
 		storyText.setText("");
 		storyText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);	
 		
 		// Recycle bitmap immediately to save memory
-		if (storyImage.getDrawable() != null)
-			((BitmapDrawable)storyImage.getDrawable()).getBitmap().recycle();
-		storyImage.setImageBitmap(null);
+		if (nextImageFound) {
+			if (storyImage.getDrawable() != null)
+				((BitmapDrawable)storyImage.getDrawable()).getBitmap().recycle();
+			storyImage.setImageBitmap(null);
+		}
 		try {
 
 			InputStream in_s = resources.openRawResource(resources
@@ -198,33 +263,37 @@ public class StoryActivity extends Activity {
 			    total.append(txt);
 			}
 			txt=total.toString();
-	        byte[] b = new byte[in_s.available()];
-	        in_s.read(b);
 	        storyText.setText(txt);
-			setTextPosition();
-			textX=textX-textW/2;
-			textY=textY-textH/2;
-			textH =  textH / 1200 * height;
-			textW =  textW / 1600 * width;
-			textX = textX / 1600 * width;
-			textY = textY / 1200 * height;
+
 			
 			RelativeLayout.LayoutParams paramsText = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
-			paramsText.leftMargin = (int) textX; //Your X coordinate
-			paramsText.topMargin = (int) textY; //Your Y coordinate
+			paramsText.leftMargin = (int) (0.2f*width); //Your X coordinate
+			paramsText.topMargin = (int) (0.8f*height); //Your Y coordinate
+
 			storyText.setLayoutParams(paramsText);
 			// for api11+
 			//storyText.setX(textX);
 			//storyText.setY(textY);
-			storyText.setWidth((int) textW);
-			storyText.setHeight((int) textH);
+			storyText.setWidth((int) (width*0.6f));
+			storyText.setHeight((int) (height*0.2f));
+			textBackground.setVisibility(View.VISIBLE);
+			storyText.setVisibility(View.VISIBLE);
+			textFound=true;
+			if (soundMode==2){
+				textBackground.setVisibility(View.INVISIBLE);
+				storyText.setVisibility(View.INVISIBLE);
+			}
+			
 
 		} catch (Exception e) {
+			textBackground.setVisibility(View.INVISIBLE);
+			textFound=false;
 			e.printStackTrace();
 		}
-		storyImage.setImageBitmap(decodeSampledBitmapFromResource(getResources(),
-				getResources().getIdentifier(imageName,"drawable", this.getPackageName()), width, height));
-		storyImage.setOnClickListener(new ImageView.OnClickListener() {
+		if (nextImageFound)
+			storyImage.setImageBitmap(decodeSampledBitmapFromResource(getResources(),
+					getResources().getIdentifier(imageName,"drawable", this.getPackageName()), width, height));
+		iconFwd.setOnClickListener(new ImageView.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -236,9 +305,23 @@ public class StoryActivity extends Activity {
 			mPlayer.release();
 			audioPlaying = false;
 		}
+		if (customAudioFound){
+			try {
+				mPlayer = new MediaPlayer();
+				mPlayer.setDataSource(audioName);
+				mPlayer.prepare();
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			}
+		else{
 		mPlayer = MediaPlayer.create(StoryActivity.this, getResources()
 				.getIdentifier(audioName, "raw", this.getPackageName()));
-		if (mute){
+
+		}
+		if (soundMode==1){
 			mPlayer.setVolume(0,0);
 		}else {
 			mPlayer.setVolume(1,1);
@@ -249,26 +332,38 @@ public class StoryActivity extends Activity {
 				nextSlide();
 			}
 		});
-		iconBack.bringToFront();
-		
+
 		//back button is invisible on first slide
 		if (slideNum<2) 
 			iconBack.setVisibility(View.INVISIBLE);
 		else
 			iconBack.setVisibility(View.VISIBLE);
-		iconClose.bringToFront();
-		iconSound.bringToFront();
+
 		mPlayer.start();
 		audioPlaying = true;
 		
 	}
 
 	void backToMenu() {
-		if (audioPlaying == true){
-			mPlayer.release();
-			audioPlaying = false;
-		}
-		StoryActivity.this.finish();
+		new AlertDialog.Builder(this)
+        .setIcon(android.R.drawable.ic_dialog_alert)
+        .setTitle(getString(R.string.btmTitle))
+        .setMessage(getString(R.string.btmMsg))
+        .setPositiveButton(getString(R.string.btmYes), new DialogInterface.OnClickListener()
+    {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+    		if (audioPlaying == true){
+    			mPlayer.release();
+    			audioPlaying = false;
+    		}
+    		StoryActivity.this.finish(); 
+        }
+
+    })
+    .setNegativeButton("Ne", null)
+    .show();
+
 
 	}
 
@@ -333,176 +428,6 @@ public class StoryActivity extends Activity {
 		options.inJustDecodeBounds = false;
 		return BitmapFactory.decodeResource(res, resId, options);
 	}
-	// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	void setTextPosition() {
-		switch (slideNum) {
-		case 2:
-
-			textX = 560;
-			textY = 260;
-			textW = 730;
-			textH = 235;
-			break;
-		case 3:
-			textX = 560;
-			textY = 260;
-			textW = 730;
-			textH = 235;
-			;
-		case 4:
-			textX = 560;
-			textY = 260;
-			textW = 730;
-			textH = 235;
-			break;
-		case 6:
-			textX = 800;
-			textY = 246;
-			textW = 1060;
-			textH = 296;
-			break;
-		case 7:
-			textX = 800;
-			textY = 246;
-			textW = 1060;
-			textH = 296;
-			break;
-		case 8:
-			textX = 800;
-			textY = 246;
-			textW = 1060;
-			textH = 296;
-			break;
-		case 10:
-			textX = 875;
-			textY = 362;
-			textW = 698;
-			textH = 377;
-			break;
-
-		case 11:
-			textX = 875;
-			textY = 362;
-			textW = 698;
-			textH = 377;
-			break;
-		case 12:
-			textX = 875;
-			textY = 362;
-			textW = 698;
-			textH = 377;
-			break;
-		case 13:
-			textX = 875;
-			textY = 362;
-			textW = 698;
-			textH = 377;
-			break;
-		case 15:
-			;
-			textX = 1123;
-			textY = 339;
-			textW = 660;
-			textH = 416;
-			break;
-		case 16:
-			textX = 1123;
-			textY = 339;
-			textW = 660;
-			textH = 416;
-			break;
-		case 17:
-			textX = 1123;
-			textY = 339;
-			textW = 660;
-			textH = 416;
-			break;
-		case 19:
-			textX = 783;
-			textY = 251;
-			textW = 1015;
-			textH = 297;
-			break;
-		case 20:
-			textX = 783;
-			textY = 251;
-			textW = 1015;
-			textH = 297;
-			break;
-		case 22:
-			textX = 345;
-			textY = 553;
-			textW = 390;
-			textH = 802;
-			break;
-		case 23:
-			textX = 345;
-			textY = 553;
-			textW = 390;
-			textH = 802;
-			break;
-		case 24:
-			textX = 345;
-			textY = 553;
-			textW = 390;
-			textH = 802;
-			break;
-		case 25:
-			textX = 811;
-			textY = 274;
-			textW = 962;
-			textH = 320;
-			break;
-		case 26:
-			textX = 811;
-			textY = 274;
-			textW = 962;
-			textH = 320;
-			break;
-		case 27:
-			textX = 811;
-			textY = 274;
-			textW = 962;
-			textH = 320;
-			break;
-		case 28:
-			textX = 811;
-			textY = 274;
-			textW = 962;
-			textH = 320;
-			break;
-		case 29:
-			textX = 330;
-			textY = 330;
-			textW = 455;
-			textH = 447;
-			break;
-		case 30:
-			textX = 330;
-			textY = 330;
-			textW = 455;
-			textH = 447;
-			break;
-		case 31:
-			textX = 330;
-			textY = 330;
-			textW = 455;
-			textH = 447;
-			break;
-		case 32:
-			textX = 330;
-			textY = 330;
-			textW = 455;
-			textH = 447;
-			break;
-
-		default:
-			textX = 0;
-			textY = 0;
-			textW = 0;
-			textH = 0;
-			break;
-		}
-	}
+	
 }

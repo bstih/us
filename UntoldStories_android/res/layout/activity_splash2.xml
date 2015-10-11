@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" 
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center" >
+
+        <Button
+            android:id="@+id/croBtn"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:background="@drawable/flag_cro"
+            
+            android:scaleType="fitXY" />
+
+        <Button
+            android:id="@+id/engBtn"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:background="@drawable/flag_eng"
+            android:gravity="center"
+            android:scaleType="fitXY" />
+
+    </LinearLayout>
+
+</RelativeLayout>

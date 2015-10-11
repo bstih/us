@@ -59,10 +59,12 @@ public class MenuActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent mainIntent = new Intent(MenuActivity.this,
-						StoryActivity.class);
+						OptionsActivity.class);
 				MenuActivity.this.startActivity(mainIntent);
 			}
 		});
+		
+	
 
 		settings.setOnClickListener(new ImageView.OnClickListener() {
 
