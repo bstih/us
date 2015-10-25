@@ -186,6 +186,7 @@ public class AudioRecorderActivity extends Activity {
 		mPlayer.release();
 		mPlayer = null;
 		nextButton.setEnabled(true);
+		recordButton.setEnabled(false);
 	}
 
 	private void startRecording() {

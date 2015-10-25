@@ -121,6 +121,15 @@
 <!--             android:layout_width="0dp" -->
 <!--             android:clickable="@bool/abc_action_bar_embed_tabs" -->
 <!--             android:src="@drawable/menu_star" /> -->
+
+        <ImageView
+            android:id="@+id/language"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:clickable="true"
+            android:scaleType="fitCenter"
+            />
     </LinearLayout>
 
 </LinearLayout>

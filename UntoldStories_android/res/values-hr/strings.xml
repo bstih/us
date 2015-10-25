@@ -24,7 +24,7 @@
     <string name="textSufix">_t</string>
     <string name="audioSufix">_a</string>
     <string name="imageSufix">_i</string>
-    <string name="customAudioSufix">_ca</string>
+    <string name="customAudioSufix">_ca.3gp</string>
     <string name="titleFirstStory">Dabar i lisica krijesnica traže blago</string>
 
     <!-- audioRecordAcitvity -->
@@ -44,6 +44,7 @@
     <string name="btmTitle">Izlaz</string>
     <string name="btmMsg">Jeste li sigurni da želite prekinuti priču?</string>
     <string name="btmYes">Da</string>
+    <string name="btmNo">Ne</string>
     <string name="title_activity_splash2">Splash2Activity</string>
     <string name="hello_world">Hello world!</string>
 

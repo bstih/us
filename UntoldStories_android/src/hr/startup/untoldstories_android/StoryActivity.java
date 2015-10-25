@@ -8,7 +8,9 @@ import java.io.InputStreamReader;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,9 +20,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
+import android.os.Vibrator;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -56,6 +59,7 @@ public class StoryActivity extends Activity {
 	private String absolutePath;
 	private String customAudioSufix = "_ca.3gp";
 	int storyNum = 1;
+	private Vibrator v;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +91,8 @@ public class StoryActivity extends Activity {
 		slideNum = 1;
 		absolutePath = Environment.getExternalStorageDirectory()
 				.getAbsolutePath() + relativePath;
-		
+		 v = (Vibrator) getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
+		 
 		//set icon positions
 		RelativeLayout.LayoutParams paramsClose = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT); //The WRAP_CONTENT parameters can be replaced by an absolute width and height or the FILL_PARENT option)
 		RelativeLayout.LayoutParams paramsBack = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -166,6 +171,24 @@ public class StoryActivity extends Activity {
 			}
 		});
 		
+		storyImage.setOnTouchListener(new ImageView.OnTouchListener() {        
+
+			@Override
+			public boolean onTouch(View view, MotionEvent event) {
+				// TODO Auto-generated method stub
+				switch(event.getAction()) {
+	            case MotionEvent.ACTION_DOWN:
+	            	v.vibrate(3000);
+	                return true; // if you want to handle the touch event
+	            case MotionEvent.ACTION_UP:
+	            	v.cancel();
+	            	return true; // if you want to handle the touch event
+	        }
+				
+				return false;
+			}
+		});
+
 		// goes to slide for slideNum = 1
 		changeSlide();
 
@@ -345,6 +368,7 @@ public class StoryActivity extends Activity {
 	}
 
 	void backToMenu() {
+		if (slideNum < 32) {
 		new AlertDialog.Builder(this)
         .setIcon(android.R.drawable.ic_dialog_alert)
         .setTitle(getString(R.string.btmTitle))
@@ -361,8 +385,19 @@ public class StoryActivity extends Activity {
         }
 
     })
-    .setNegativeButton("Ne", null)
-    .show();
+    .setNegativeButton(getString(R.string.btmNo), null)
+    .show();}
+		else{
+			if (audioPlaying == true){
+    			mPlayer.release();
+    			audioPlaying = false;
+    		}
+			Intent mainIntent = new Intent(StoryActivity.this,
+					RatingActivity.class);
+			StoryActivity.this.startActivity(mainIntent);
+    		StoryActivity.this.finish(); 
+		}
+			
 
 
 	}
