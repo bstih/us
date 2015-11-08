@@ -1,40 +1,59 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center" >
+    android:gravity="center"
+    android:keepScreenOn="true"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <ImageView
+        android:id="@+id/storyImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:scaleType="fitXY" />
 
     <LinearLayout
+        android:id="@+id/buttonsLayout"
         android:layout_width="match_parent"
-        android:layout_height="100dp" >
+        android:layout_height="100dp"
+        android:layout_centerVertical="true" >
 
         <Button
             android:id="@+id/startRecording"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="fill_parent"
+            android:layout_weight="1"
             android:text="@string/recBtn" />
 
         <Button
             android:id="@+id/playRecording"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="fill_parent"
+            android:layout_weight="1"
             android:text="@string/playBtn" />
 
         <Button
             android:id="@+id/nextRecording"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="fill_parent"
+            android:layout_weight="1"
             android:text="@string/nextBtn" />
-
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/textBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/buttonsLayout"
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/textRecording"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonsLayout"
+        android:textColor="#50504c" />
 
-</LinearLayout>
+</RelativeLayout>

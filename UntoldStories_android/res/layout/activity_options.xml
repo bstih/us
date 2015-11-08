@@ -3,37 +3,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center" >
+    android:gravity="center"
+    android:background="@drawable/story_1_22_i" >
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:gravity="center"
+        android:layout_height="100dp"
         android:text="@string/titleFirstStory" 
-        android:layout_marginBottom="100dp"/>
+        android:layout_marginTop="10dp"
+
+        android:textAppearance="?android:attr/textAppearanceLarge"
+    android:textColor="#50504c"
+    android:textSize="30sp"
+    android:background="@drawable/border_wide"
+/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp" >
+        android:layout_height="220dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal" >
 
         <Button
             android:id="@+id/play"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="fill_parent"
+            android:layout_width="250dp"
+
+            android:layout_height="80dp"
             android:text="@string/tellStory" />
 
         <Button
             android:id="@+id/playCustom"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="fill_parent"
+            android:layout_width="250dp"
+
+            android:layout_height="80dp"
             android:text="@string/tellRecording" />
 
         <Button
             android:id="@+id/record"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="fill_parent"
+            android:layout_width="250dp"
+
+            android:layout_height="70dp"
             android:text="@string/recordStory" />
 
     </LinearLayout>

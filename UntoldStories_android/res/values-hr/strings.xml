@@ -7,16 +7,20 @@
     <string name="title_activity_story">StoryActivity</string>
     <string name="title_activity_about">AboutActivity</string>
     <string name="title_activity_options">OptionsActivity</string>
+            <string name="title_activity_rating">RatingActivity</string>
 
     <!-- credits -->
     <string name="silvia">Silvia Nađ</string>
     <string name="boris">Boris Štih</string>
     <string name="petra">Petra Kožar</string>
+        <string name="rateButton">Rate us</string>
+    <string name="fdbkButton">Give us feedback</string>
 
     <!-- optionsActivity -->
     <string name="tellStory">Pričaj mi</string>
     <string name="tellRecording">Pričaj sa snimljenim zvukom</string>
     <string name="recordStory">Snimi priču</string>
+    <string name="finishButton">Završi</string>
 
     <!-- common -->
     <string name="relativePath">/PMZLN/</string>
@@ -24,8 +28,8 @@
     <string name="textSufix">_t</string>
     <string name="audioSufix">_a</string>
     <string name="imageSufix">_i</string>
-    <string name="customAudioSufix">_ca.3gp</string>
-    <string name="titleFirstStory">Dabar i lisica krijesnica traže blago</string>
+    <string name="customAudioSufix">_ca.mp3</string>
+    <string name="titleFirstStory">Dabar i lisica Krijesnica traže blago</string>
 
     <!-- audioRecordAcitvity -->
     <string name="recBtn">Snimi glas</string>
@@ -36,16 +40,18 @@
 
     <!-- menu -->
     <string name="menuChooseStory">Odaberi priču</string>
-    <string name="firstStory">Dabar i lisica</string>
+    <string name="firstStory">Dabar i lisica\nKrijesnica traže blago</string>
     <string name="secondStory">Druga</string>
-    <string name="thirdStory">Treća</string>
+    <string name="thirdStory">Gospodin Mimsy\nide na spavanje</string>
 
     <!-- backToMenu -->
     <string name="btmTitle">Izlaz</string>
     <string name="btmMsg">Jeste li sigurni da želite prekinuti priču?</string>
+            <string name="btmMsg2">Jeste li sigurni da želite izaći prije završetka snimanja cijele priče?</string>
     <string name="btmYes">Da</string>
     <string name="btmNo">Ne</string>
     <string name="title_activity_splash2">Splash2Activity</string>
     <string name="hello_world">Hello world!</string>
-
+        <!-- rating -->
+    <string name="rateStory">Ocijeni priču</string>
 </resources>
